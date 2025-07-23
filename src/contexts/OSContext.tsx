@@ -23,7 +23,7 @@ export interface Window {
   position: { x: number; y: number };
   size: { width: number; height: number };
   zIndex: number;
-  data?: any;
+  data?: Record<string, unknown>;
 }
 
 interface OSContextType {
