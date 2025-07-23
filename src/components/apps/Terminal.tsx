@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useOS } from '@/contexts/OSContext';
+import { FileSystemItem, useOS } from '@/contexts/OSContext';
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error';
@@ -28,7 +28,7 @@ export default function Terminal() {
   const [currentPath, setCurrentPath] = useState('/');
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { fileSystem, getItemsByPath, createFile, createFolder, deleteItem, openWindow } = useOS();
+  const { fileSystem, getItemsByPath, createFile, createFolder, deleteItem } = useOS();
 
   useEffect(() => {
     if (terminalRef.current) {
@@ -75,7 +75,7 @@ export default function Terminal() {
         if (items.length === 0) {
           addLine('output', 'Directory is empty');
         } else {
-          items.forEach((item:any) => {
+          items.forEach((item:FileSystemItem) => {
             const prefix = item.type === 'folder' ? 'd' : '-';
             const size = item.size ? item.size.toString().padStart(8) : '       -';
             const date = item.modified.toLocaleDateString();
@@ -143,7 +143,7 @@ export default function Terminal() {
           addLine('error', 'rm: missing operand');
         } else {
           const items = getItemsByPath(currentPath);
-          const targetItem = items.find((item:any) => item.name === args[0]);
+          const targetItem = items.find((item:FileSystemItem) => item.name === args[0]);
           if (targetItem) {
             deleteItem(targetItem.id);
             addLine('output', `'${args[0]}' removed`);
@@ -158,7 +158,7 @@ export default function Terminal() {
           addLine('error', 'cat: missing operand');
         } else {
           const items = getItemsByPath(currentPath);
-          const targetItem = items.find((item:any) => item.name === args[0]);
+          const targetItem = items.find((item:FileSystemItem) => item.name === args[0]);
           if (targetItem && targetItem.type === 'file') {
             addLine('output', targetItem.content || '');
           } else if (targetItem && targetItem.type === 'folder') {
@@ -234,7 +234,7 @@ export default function Terminal() {
     let currentItem = fileSystem['root'];
     
     for (const part of pathParts) {
-      const childId = currentItem?.children?.find((id:any) => 
+      const childId = currentItem?.children?.find((id:string) => 
         fileSystem[id]?.name.toLowerCase() === part.toLowerCase()
       );
       if (childId) {

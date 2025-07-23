@@ -37,7 +37,7 @@ export default function ContextMenu({ x, y, onAction, onClose }: ContextMenuProp
       className="absolute bg-gray-900/95 backdrop-blur-lg rounded-lg border border-gray-700 shadow-2xl py-2 min-w-48 z-50"
       style={{ left: x, top: y }}
     >
-      {menuItems.map((item, index) => (
+      {menuItems.map((item) => (
         <button
           key={item.action}
           onClick={() => onAction(item.action)}

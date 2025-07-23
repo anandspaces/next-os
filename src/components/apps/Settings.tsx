@@ -35,8 +35,8 @@ export default function Settings() {
     { id: 'storage', name: 'Storage', icon: HardDrive },
     { id: 'about', name: 'About', icon: Info }
   ];
-
-  const updateSetting = (key: string, value: any) => {
+  type SettingValue = string | number | boolean;
+  const updateSetting = (key: string, value: SettingValue) => {
     setSettings(prev => ({ ...prev, [key]: value }));
   };
 

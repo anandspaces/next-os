@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Save, FileText, Download, Upload } from 'lucide-react';
+import { Save, FileText, Upload } from 'lucide-react';
 
 interface TextEditorProps {
   data?: { content?: string; filename?: string };

@@ -12,9 +12,6 @@ import {
   FileText,
   LogOut,
   Monitor,
-  Minimize2,
-  Square,
-  X
 } from 'lucide-react';
 import { useOS } from '@/contexts/OSContext';
 
@@ -25,7 +22,7 @@ interface TaskbarProps {
 
 export default function Taskbar({ currentTime, onLogout }: TaskbarProps) {
   const [isStartMenuOpen, setIsStartMenuOpen] = useState(false);
-  const { windows, openWindow, minimizeWindow, focusWindow, closeWindow } = useOS();
+  const { windows, openWindow, focusWindow } = useOS();
 
   const applications = [
     { name: 'File Manager', icon: Folder, component: 'FileManager' },

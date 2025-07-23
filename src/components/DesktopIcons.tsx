@@ -65,7 +65,7 @@ export default function DesktopIcons() {
 
   return (
     <div className="absolute top-4 left-4 space-y-6">
-      {desktopItems.map((item, index) => (
+      {desktopItems.map((item) => (
         <div
           key={item.name}
           onDoubleClick={item.action}

@@ -9,7 +9,6 @@ import {
   Search, 
   Grid3X3, 
   List,
-  Upload,
   FolderPlus,
   FileText,
   Trash2
@@ -24,7 +23,6 @@ export default function FileManager({ data }: FileManagerProps) {
   const { 
     fileSystem, 
     currentPath, 
-    navigateTo, 
     getItemsByPath, 
     createFile, 
     createFolder, 
@@ -44,7 +42,7 @@ export default function FileManager({ data }: FileManagerProps) {
   }, [data?.currentPath]);
 
   const items = getItemsByPath(path);
-  const filteredItems = items.filter((item:any) =>
+  const filteredItems = items.filter((item:FileSystemItem) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -62,7 +60,7 @@ export default function FileManager({ data }: FileManagerProps) {
     }
   };
 
-  const handleItemDoubleClick = (item: FileSystemItem) => {
+  const handleItemDoubleClick = (item:FileSystemItem) => {
     if (item.type === 'folder') {
       const newPath = path === '/' ? `/${item.name}` : `${path}/${item.name}`;
       handleNavigate(newPath);
@@ -80,7 +78,7 @@ export default function FileManager({ data }: FileManagerProps) {
     }
   };
 
-  const handleItemClick = (item: FileSystemItem, e: React.MouseEvent) => {
+  const handleItemClick = (item:FileSystemItem, e: React.MouseEvent) => {
     if (e.ctrlKey || e.metaKey) {
       setSelectedItems(prev => 
         prev.includes(item.id) 
@@ -126,7 +124,7 @@ export default function FileManager({ data }: FileManagerProps) {
     let currentItem = fileSystem['root'];
     
     for (const part of pathParts) {
-      const childId = currentItem?.children?.find((id:any) => 
+      const childId = currentItem?.children?.find((id:string) => 
         fileSystem[id]?.name.toLowerCase() === part.toLowerCase()
       );
       if (childId) {
@@ -231,7 +229,7 @@ export default function FileManager({ data }: FileManagerProps) {
           </div>
         ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-6 gap-4">
-            {filteredItems.map((item:any) => (
+            {filteredItems.map((item:FileSystemItem) => (
               <div
                 key={item.id}
                 onClick={(e) => handleItemClick(item, e)}
@@ -259,7 +257,7 @@ export default function FileManager({ data }: FileManagerProps) {
               <div>Size</div>
               <div>Modified</div>
             </div>
-            {filteredItems.map((item:any) => (
+            {filteredItems.map((item:FileSystemItem) => (
               <div
                 key={item.id}
                 onClick={(e) => handleItemClick(item, e)}
